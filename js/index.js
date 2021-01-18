@@ -19,37 +19,48 @@
       5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
 *************************** */
 
-window.addEventListener('DOMContentLoaded', () => {
-  const start = document.querySelector('#start');
-  start.addEventListener('click', function (e) {
-    document.querySelector('#quizBlock').style.display = 'block';
-    start.style.display = 'none';
+window.addEventListener("DOMContentLoaded", () => {
+  const start = document.querySelector("#start");
+  start.addEventListener("click", function (e) {
+    document.querySelector("#quizBlock").style.display = "block";
+    start.style.display = "none";
+    countDownTimer();
   });
   // quizArray QUESTIONS & ANSWERS
   // q = QUESTION, o = OPTIONS, a = CORRECT ANSWER
   // Basic ideas from https://code-boxx.com/simple-javascript-quiz/
   const quizArray = [
     {
-      q: 'Which is the third planet from the sun?',
-      o: ['Saturn', 'Earth', 'Pluto', 'Mars'],
+      q: "Which is the third planet from the sun?",
+      o: ["Saturn", "Earth", "Pluto", "Mars"],
       a: 1, // array index 1 - so Earth is the correct answer here
     },
     {
-      q: 'Which is the largest ocean on Earth?',
-      o: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+      q: "Which is the largest ocean on Earth?",
+      o: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
       a: 3,
     },
     {
-      q: 'What is the capital of Australia',
-      o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
+      q: "What is the capital of Australia",
+      o: ["Sydney", "Canberra", "Melbourne", "Perth"],
       a: 1,
+    },
+    {
+      q: "What colorful body of water separates Saudi Arabia from Africa?",
+      o: ["Nile River", "Indian Ocean", "Red Sea", "Mediterranean Sea"],
+      a: 2,
+    },
+    {
+      q: "What is the largest city to connect two continents?",
+      o: ["Istanbul", "Panama City", "Berlin", "Belfast"],
+      a: 0,
     },
   ];
 
   // function to Display the quiz questions and answers from the object
   const displayQuiz = () => {
-    const quizWrap = document.querySelector('#quizWrap');
-    let quizDisplay = '';
+    const quizWrap = document.querySelector("#quizWrap");
+    let quizDisplay = "";
     quizArray.map((quizItem, index) => {
       quizDisplay += `<ul class="list-group">
                    Q - ${quizItem.q}
@@ -63,6 +74,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const scoreContainer = document.getElementById("score");
   // Calculate the score
   const calculateScore = () => {
     let score = 0;
@@ -71,20 +83,61 @@ window.addEventListener('DOMContentLoaded', () => {
         //highlight the li if it is the correct answer
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
-        liElement = document.querySelector('#' + li);
-        radioElement = document.querySelector('#' + r);
+        liElement = document.querySelector("#" + li);
+        radioElement = document.querySelector("#" + r);
 
         if (quizItem.a == i) {
           //change background color of li element here
+          liElement.style.backgroundColor = "lightgreen";
         }
 
         if (radioElement.checked) {
           // code for task 1 goes here
+          score++;
         }
       }
+      // show number of correct answers out of total
+      scoreContainer.innerHTML = `You got ${score} out of ${quizArray.length}`;
     });
   };
+  //countdown timer
+  var count = 15;
+  var interval;
+  function countDownTimer() {
+    interval = setInterval(timer, 1000);
+
+    function timer() {
+      document.getElementById("time").innerHTML =
+        count < 10 ? `00:0${count}` : `00:${count}`;
+      count--;
+
+      if (count === 0) {
+        submitButton.style.display = 'none';
+        clearInterval(interval);
+        calculateScore();
+        alert("You're out of time! Check out result!");
+      }
+    }
+  }
+  //end of countdown timer
 
   // call the displayQuiz function
   displayQuiz();
+  const submitButton = document.getElementById("btnSubmit");
+  submitButton.addEventListener("click", function (e) {
+    calculateScore();
+    clearInterval(interval);
+    submitButton.style.display = "none";
+  });
+  const resetButton = document.getElementById("btnReset");
+  resetButton.addEventListener(
+    "click",
+    // function (e) {
+    //   displayQuiz();
+    //   scoreContainer.style.display = "none";
+    // }
+    function newDoc() {
+      window.location.assign("index.html");
+    }
+  );
 });
