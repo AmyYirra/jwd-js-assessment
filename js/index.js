@@ -108,16 +108,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
     function timer() {
       count--;
-
+      document.getElementById("time").innerHTML =
+        count < 10 ? `00:0${count}` : `00:${count}`;
       if (count < 0) {
-        
+        document.getElementById("time").innerHTML =
+         "00:00";
         clearInterval(interval);
         calculateScore();
         submitButton.style.display = "none";
         alert("You're out of time! Check out result!");
       }
-      document.getElementById("time").innerHTML =
-        count < 10 ? `00:0${count}` : `00:${count}`;
+
     }
   }
   //end of countdown timer
