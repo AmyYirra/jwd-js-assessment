@@ -91,7 +91,7 @@ window.addEventListener("DOMContentLoaded", () => {
           liElement.style.backgroundColor = "lightgreen";
         }
 
-        if (radioElement.checked) {
+        if (radioElement.checked&& quizItem.a == i) {
           // code for task 1 goes here
           score++;
         }
