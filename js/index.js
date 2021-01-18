@@ -91,7 +91,7 @@ window.addEventListener("DOMContentLoaded", () => {
           liElement.style.backgroundColor = "lightgreen";
         }
 
-        if (radioElement.checked&& quizItem.a == i) {
+        if (radioElement.checked && quizItem.a == i) {
           // code for task 1 goes here
           score++;
         }
@@ -107,16 +107,17 @@ window.addEventListener("DOMContentLoaded", () => {
     interval = setInterval(timer, 1000);
 
     function timer() {
-      document.getElementById("time").innerHTML =
-        count < 10 ? `00:0${count}` : `00:${count}`;
       count--;
 
-      if (count === 0) {
-        submitButton.style.display = 'none';
+      if (count < 0) {
+        
         clearInterval(interval);
         calculateScore();
+        submitButton.style.display = "none";
         alert("You're out of time! Check out result!");
       }
+      document.getElementById("time").innerHTML =
+        count < 10 ? `00:0${count}` : `00:${count}`;
     }
   }
   //end of countdown timer
