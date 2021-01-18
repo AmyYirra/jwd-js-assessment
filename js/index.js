@@ -94,6 +94,9 @@ window.addEventListener("DOMContentLoaded", () => {
         if (radioElement.checked && quizItem.a == i) {
           // code for task 1 goes here
           score++;
+        } else if(radioElement.checked && quizItem.a != i)
+        {
+          liElement.style.backgroundColor = "red";
         }
       }
       // show number of correct answers out of total
